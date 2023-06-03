@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+<h1>index 페이지 입니다.</h1>
+<div>
+    <ul>
+        <th:block th:if="${loginUser == null}">
+            <li><a th:href="@{/loginForm}">로그인</a> </li>
+            <li><a th:href="@{/joinForm}">회원가입</a> </li>
+        </th:block>
+        <th:block th:unless="${loginUser == null}">
+            <li><span th:text="${loginUser}"></span>님 어서오세요</li>
+        </th:block>
+    </ul>
+
+</div>
+</body>
+</html>
