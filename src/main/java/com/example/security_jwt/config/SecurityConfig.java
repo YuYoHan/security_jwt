@@ -68,7 +68,6 @@ public class SecurityConfig {
                          "hasRole('ROLE_ADMIN')")
                  .anyRequest().permitAll()
                  .and()
-                 .exceptionHandling().authenticationEntryPoint()
                  .formLogin()
                  .loginPage("/loginForm")
                  // /login 주소가 호출이되면 시큐리티가 낚아채서 대신 로그인을 진행합니다.
@@ -81,9 +80,7 @@ public class SecurityConfig {
                  // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때 설정 담당
                  .userInfoEndpoint()
                  // OAuth2 로그인 성공 시, 후작업을 진행할 서비스
-                 .userService(principalOauth2UserService)
-                 .and()
-                 .add
+                 .userService(principalOauth2UserService);
 
          return http.build();
 
