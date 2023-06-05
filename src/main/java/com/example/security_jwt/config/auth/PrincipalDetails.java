@@ -49,6 +49,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return collection;
     }
 
+    // 사용자의 패스워드를 반환
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -56,30 +57,37 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getUsername() {
-        return user.getUserName();
+        return user.getEmail();
     }
 
+    // 계정 만료 여부 반환
     @Override
     public boolean isAccountNonExpired() {
+        // 만료되었는지 확인하는 로직
+        // true = 만료되지 않음
         return true;
     }
 
+    // 계정 잠금 여부 반환
     @Override
     public boolean isAccountNonLocked() {
+        // true = 잠금되지 않음
         return true;
     }
 
+    // 패스워드의 만료 여부 반환
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        // 패스워드가 만료되었는지 확인하는 로직
+        // true = 만료되지 않음
+        return true;
     }
 
+    // 계정 사용 가능 여부 반환
     @Override
     public boolean isEnabled() {
-        // 우리 사이트!! 1년 동안 회원이 로그인을 안하면
-        // 휴먼 계정으로 하기로 함
-        // 현재 시간 - 로그인 시간 → 1년을 초과하면 return false;
-
+        // 계정이 사용 가능한지 확인하는 로직
+        // true = 사용 가능
         return true;
     }
 

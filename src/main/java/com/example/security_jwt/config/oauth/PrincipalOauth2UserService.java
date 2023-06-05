@@ -1,6 +1,8 @@
 package com.example.security_jwt.config.oauth;
 
 import com.example.security_jwt.config.auth.PrincipalDetails;
+import com.example.security_jwt.config.oauth.provider.GoogleUserInfo;
+import com.example.security_jwt.config.oauth.provider.OAuth2UserInfo;
 import com.example.security_jwt.model.User;
 import com.example.security_jwt.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -36,11 +38,23 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         log.info("getAttributes : " + oAuth2User.getAttributes());
 
         // 회원가입을 강제로 진행
-        String provider = userRequest.getClientRegistration().getRegistrationId();
-        String providerId = oAuth2User.getAttribute("sub");
+        OAuth2UserInfo oAuth2UserInfo = null;
+
+        if(userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+            log.info("구글 로그인 요청");
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
+            log.info("페이스북 로그인 요청");
+
+        }else {
+            log.info("우리는 구글과 페이스북만 지원합니다.");
+        }
+
+        String provider = oAuth2UserInfo.getProvider();
+        String providerId = oAuth2UserInfo.getProviderId();
         String userName = provider + "_" + providerId; // google_109742856182916427686
         String password = bCryptPasswordEncoder.encode("get");
-        String email = oAuth2User.getAttribute("email");
+        String email = oAuth2UserInfo.getEmail();
         String role = "ROLE_USER";
 
         User byUserName = userRepository.findByUserName(userName);

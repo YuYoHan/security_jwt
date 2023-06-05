@@ -68,6 +68,7 @@ public class SecurityConfig {
                          "hasRole('ROLE_ADMIN')")
                  .anyRequest().permitAll()
                  .and()
+                 .exceptionHandling().authenticationEntryPoint()
                  .formLogin()
                  .loginPage("/loginForm")
                  // /login 주소가 호출이되면 시큐리티가 낚아채서 대신 로그인을 진행합니다.
@@ -77,9 +78,12 @@ public class SecurityConfig {
                  .and()
                  .oauth2Login()
                  .loginPage("/loginForm") // 구글 로그인이 완료된 후 후처리 필요
-                 // 코드 x, 엑세스 토큰 + 사용자 프로필 정보
+                 // OAuth2 로그인 성공 이후 사용자 정보를 가져올 때 설정 담당
                  .userInfoEndpoint()
-                 .userService(principalOauth2UserService);
+                 // OAuth2 로그인 성공 시, 후작업을 진행할 서비스
+                 .userService(principalOauth2UserService)
+                 .and()
+                 .add
 
          return http.build();
 
