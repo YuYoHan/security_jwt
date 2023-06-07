@@ -38,4 +38,3 @@ out/
 
 src/oauth
 src/main/resources/application-oauth.properties
-src/main/resources/application-jwt.properties
